@@ -4,6 +4,7 @@ from sqlalchemy.orm import relationship
 
 from ..database.base import Base
 
+
 class Pipeline(Base):
     __tablename__ = "pipelines"
 

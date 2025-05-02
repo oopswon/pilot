@@ -1,4 +1,4 @@
-from .department import Department, DepartmentCreate, DepartmentUpdate
-from .user import User, UserCreate, UserUpdate, UserInDB, Token, TokenData
-from .pipeline import Pipeline, PipelineCreate, PipelineUpdate
-from .pipeline_event import PipelineEvent, PipelineEventCreate, PipelineEventUpdate
+from .department import Department, DepartmentCreate, DepartmentUpdate  # noqa: F401
+from .user import User, UserCreate, UserUpdate, UserInDB, Token, TokenData  # noqa: F401
+from .pipeline import Pipeline, PipelineCreate, PipelineUpdate  # noqa: F401
+from .pipeline_event import PipelineEvent, PipelineEventCreate, PipelineEventUpdate  # noqa: F401

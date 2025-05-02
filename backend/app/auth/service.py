@@ -1,17 +1,23 @@
 from sqlalchemy.orm import Session
-from fastapi import HTTPException, status
+from fastapi import HTTPException, status  # noqa: F401
 from datetime import timedelta
 
 from ..models.user import User
-from ..core.security import verify_password, get_password_hash, create_access_token
+from ..core.security import (
+    verify_password,
+    get_password_hash,
+    create_access_token
+)
 from ..core.config import settings
 from ..schemas.user import UserCreate, UserUpdate
+
 
 def authenticate_user(db: Session, username: str, password: str):
     user = db.query(User).filter(User.username == username).first()
     if not user or not verify_password(password, user.password_hash):
         return None
     return user
+
 
 def create_user(db: Session, user_in: UserCreate):
     db_user = User(
@@ -24,39 +30,46 @@ def create_user(db: Session, user_in: UserCreate):
     db.refresh(db_user)
     return db_user
 
+
 def get_user_by_username(db: Session, username: str):
     return db.query(User).filter(User.username == username).first()
+
 
 def get_user_by_id(db: Session, user_id: int):
     return db.query(User).filter(User.id == user_id).first()
 
+
 def get_users(db: Session, skip: int = 0, limit: int = 100):
     return db.query(User).offset(skip).limit(limit).all()
+
 
 def update_user(db: Session, user_id: int, user_in: UserUpdate):
     db_user = get_user_by_id(db, user_id)
     if not db_user:
         raise HTTPException(status_code=404, detail="User not found")
-    
+
     update_data = user_in.dict(exclude_unset=True)
     if "password" in update_data:
-        update_data["password_hash"] = get_password_hash(update_data.pop("password"))
-    
+        hashed = get_password_hash(update_data.pop("password"))
+        update_data["password_hash"] = hashed
+
     for field, value in update_data.items():
         setattr(db_user, field, value)
-    
+
     db.commit()
     db.refresh(db_user)
     return db_user
+
 
 def delete_user(db: Session, user_id: int):
     db_user = get_user_by_id(db, user_id)
     if not db_user:
         raise HTTPException(status_code=404, detail="User not found")
-    
+
     db.delete(db_user)
     db.commit()
     return db_user
+
 
 def create_user_token(user: User):
     access_token_expires = timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES)

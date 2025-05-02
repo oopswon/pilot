@@ -5,6 +5,7 @@ import enum
 
 from ..database.base import Base
 
+
 class EventType(enum.Enum):
     phone_in = "phone_in"
     phone_out = "phone_out"
@@ -13,6 +14,7 @@ class EventType(enum.Enum):
     meeting_in = "meeting_in"
     meeting_out = "meeting_out"
     status_change = "status_change"
+
 
 class PipelineEvent(Base):
     __tablename__ = "pipeline_events"

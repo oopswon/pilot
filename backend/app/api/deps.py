@@ -2,7 +2,7 @@ from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
 from jose import JWTError, jwt
 from sqlalchemy.orm import Session
-from typing import Generator
+from typing import Generator  # noqa: F401
 
 from ..database.base import get_db
 from ..models.user import User
@@ -10,6 +10,7 @@ from ..schemas.user import TokenData
 from ..core.config import settings
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl=f"{settings.API_V1_STR}/auth/login")
+
 
 def get_current_user(
     db: Session = Depends(get_db),

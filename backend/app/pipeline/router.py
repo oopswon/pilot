@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
-from typing import List, Optional
+from typing import List, Optional  # noqa: F401
 
 from ..database.base import get_db
 from ..models.user import User
@@ -12,7 +12,7 @@ router = APIRouter()
 
 @router.get("/", response_model=List[Pipeline])
 def read_pipelines(
-    skip: int = 0, 
+    skip: int = 0,
     limit: int = 100,
     owner_id: Optional[int] = None,
     department_id: Optional[int] = None,
@@ -20,7 +20,7 @@ def read_pipelines(
     current_user: User = Depends(get_current_user)
 ):
     pipelines = service.get_pipelines(
-        db, skip=skip, limit=limit, 
+        db, skip=skip, limit=limit,
         owner_id=owner_id, department_id=department_id
     )
     return pipelines
@@ -54,13 +54,13 @@ def update_pipeline(
     pipeline = service.get_pipeline(db, pipeline_id)
     if pipeline is None:
         raise HTTPException(status_code=404, detail="Pipeline not found")
-    
+
     if pipeline.owner_user_id != current_user.id:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="Not enough permissions"
         )
-    
+
     return service.update_pipeline(db, pipeline_id, pipeline_in)
 
 @router.delete("/{pipeline_id}", response_model=Pipeline)
@@ -72,11 +72,11 @@ def delete_pipeline(
     pipeline = service.get_pipeline(db, pipeline_id)
     if pipeline is None:
         raise HTTPException(status_code=404, detail="Pipeline not found")
-    
+
     if pipeline.owner_user_id != current_user.id:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="Not enough permissions"
         )
-    
+
     return service.delete_pipeline(db, pipeline_id)

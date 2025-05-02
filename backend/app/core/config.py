@@ -1,6 +1,7 @@
 import os
 from pydantic import BaseModel
 
+
 class Settings(BaseModel):
     PROJECT_NAME: str = "CRM Pipeline Tracking System"
     API_V1_STR: str = "/api/v1"
