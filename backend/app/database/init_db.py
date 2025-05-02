@@ -1,6 +1,5 @@
 from sqlalchemy.orm import Session
-from ..models import Base
-from .base import engine
+from .base import engine, Base
 
 
 def init_db():
