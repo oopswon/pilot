@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>간단 채팅방</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="chat-header">
+            <h1>채팅방</h1>
+            <div class="user-info">
+                <span id="user-count">접속자: 0명</span>
+            </div>
+        </div>
+
+        <div id="messages" class="messages"></div>
+
+        <div class="input-container">
+            <input
+                type="text"
+                id="message-input"
+                placeholder="메시지를 입력하세요..."
+                autocomplete="off"
+            >
+            <button id="send-btn">전송</button>
+        </div>
+    </div>
+
+    <!-- 사용자 이름 입력 모달 -->
+    <div id="username-modal" class="modal">
+        <div class="modal-content">
+            <h2>채팅방 입장</h2>
+            <input
+                type="text"
+                id="username-input"
+                placeholder="닉네임을 입력하세요"
+                maxlength="20"
+                autocomplete="off"
+            >
+            <button id="join-btn">입장하기</button>
+        </div>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
